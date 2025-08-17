@@ -2,7 +2,7 @@
 
 Dual‑core **ESP32 signal harness** for oscilloscope testing. UI runs on **core 1** (Serial), time‑critical waveforms on **core 0** for clean timing. Includes pin hints, DMA‑driven **10 MHz SPI** edge zoom, UART patterns, and LEDC PWM tests.
 
-> Written for my review on the BSIDE O2, but works with any scope.
+> Written for my review on the BSIDE O2, but works with any scope. My test results [here](https://docs.google.com/spreadsheets/d/17xGVQQD8bliZVpAUu7PWgD-hs-4a5vndPo7BJT8pxGs/edit?usp=sharing).
 
 ---
 
