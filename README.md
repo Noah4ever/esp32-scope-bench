@@ -31,7 +31,7 @@ Clone repo and upload to ESP32 **OR**:
 5. Press:
 
    - `m` → menu
-   - `3..9` → select a test
+   - `1..7` → select a test
    - `0` → stop
 
 ### Example `platformio.ini`
@@ -64,13 +64,13 @@ monitor_speed = 115200
 
 | ID  | Name                   | What you see on the scope                                     | Probe pins (default)                           |
 | --- | ---------------------- | ------------------------------------------------------------- | ---------------------------------------------- |
-| 3   | LEDC Sweep             | Square wave cycles through 10 k, 100 k, 500 k, 1 MHz          | `GPIO25` (`LEDC_TEST_PIN`)                     |
-| 4   | SPI Edge Zoom (10 MHz) | Continuous 10 MHz clock on SCK; MOSI toggles `0x55` (\~5 MHz) | `SCK=GPIO18`, `MOSI=GPIO23`, `CS=GPIO5` (LOW)  |
-| 5   | Single-shot Pulse      | One \~1 ms HIGH pulse when BOOT pressed                       | Pulse: `GPIO25` (`PIN_PULSE`); Button: `GPIO0` |
-| 6   | UART Sweep (0x55)      | UART TX frame; baud steps every 5 s                           | `GPIO17` (`UART_TX_PIN`)                       |
-| 7   | PWM Duty Steps         | 1 kHz PWM at 25 % → 50 % → 75 %                               | `GPIO25` (`PWM_PIN`)                           |
-| 8   | Trigger Stability      | Static square @ `PWM_FREQ` (\~50 % duty)                      | `GPIO25` (`PWM_PIN`)                           |
-| 9   | Zoom Depth (100 Hz)    | 100 Hz PWM (\~50 % duty, 10 ms period)                        | `GPIO25` (`PWM_PIN`)                           |
+| 1   | LEDC Sweep             | Square wave cycles through 10 k, 100 k, 500 k, 1 MHz          | `GPIO25` (`LEDC_TEST_PIN`)                     |
+| 2   | SPI Edge Zoom (10 MHz) | Continuous 10 MHz clock on SCK; MOSI toggles `0x55` (\~5 MHz) | `SCK=GPIO18`, `MOSI=GPIO23`, `CS=GPIO5` (LOW)  |
+| 3   | Single-shot Pulse      | One \~1 ms HIGH pulse when BOOT pressed                       | Pulse: `GPIO25` (`PIN_PULSE`); Button: `GPIO0` |
+| 4   | UART Sweep (0x55)      | UART TX frame; baud steps every 5 s                           | `GPIO17` (`UART_TX_PIN`)                       |
+| 5   | PWM Duty Steps         | 1 kHz PWM at 25 % → 50 % → 75 %                               | `GPIO25` (`PWM_PIN`)                           |
+| 6   | Trigger Stability      | Static square @ `PWM_FREQ` (\~50 % duty)                      | `GPIO25` (`PWM_PIN`)                           |
+| 7   | Zoom Depth (100 Hz)    | 100 Hz PWM (\~50 % duty, 10 ms period)                        | `GPIO25` (`PWM_PIN`)                           |
 
 > Every time you pick a test, **pin hints** are printed so you know exactly where to connect.
 
@@ -108,14 +108,14 @@ All pins are configurable via `build_flags`:
 ## Serial controls
 
 - `m` → print menu
-- `3..9` → run selected test (prints pin hints)
+- `1..7` → run selected test (prints pin hints)
 - `0` → stop output
 
 Typical output:
 
 ```
 === Menu (core1) ===
- 3) LEDC sweep 10k→1M...
+ 1) LEDC sweep 10k→1M...
  ...
 -> Test 4
 
@@ -133,9 +133,6 @@ GND -> GND
 - **Task watchdog resets (IDLE0 on CPU0)**
   This code already yields periodically and disables the core-0 idle WDT by default. If you re-enable it (`-D KEEP_IDLE0_WDT`), keep the yields (`vTaskDelay(1)`) in place.
 
-- **SPI clock has gaps**
-  Ensure you’re on **Test 4** (DMA bursts) and that Wi-Fi/BLE are **off**. Keep CS **LOW** continuously (the code does). Avoid adding any `Serial.print` in the worker task.
-
 - **No signal**
   Check your board’s pin mapping. Override pins in `platformio.ini` to match your dev kit’s labels. Confirm GND is connected.
 
@@ -146,7 +143,7 @@ GND -> GND
 
 ## Project structure & style
 
-- Clean separation via **namespaces** (`Mod3`..`Mod9`) for each test
+- Clean separation via **namespaces** (`Mod1`..`Mod7`) for each test
 - Core-0 worker dispatches `begin/tick/end` without allocations or prints
 - Minimal dependencies (`Arduino.h`, `SPI.h`)
 
