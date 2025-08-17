@@ -22,6 +22,8 @@ Includes **pin hints**, **DMA-driven 10 MHz SPI “edge zoom”**, UART patterns
 
 ## Quick start (PlatformIO)
 
+Clone repo and upload to ESP32 **OR**:
+
 1. Create a new PlatformIO project (`board = esp32dev`, framework Arduino).
 2. Drop `src/main.cpp` from this repo into your project.
 3. (Optional) Override pins with `build_flags` (see below).
