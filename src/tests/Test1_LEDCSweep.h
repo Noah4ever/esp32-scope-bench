@@ -6,13 +6,14 @@
 class Test1_LEDCSweep : public Test
 {
     static const int CH = 0;
+    static constexpr uint32_t MS_PER_STEP = 10000;
     struct Step
     {
         uint32_t freq;
         uint8_t bits;
         uint32_t ms;
     };
-    const Step steps_[4] = {{10000, 8, 10000}, {100000, 6, 10000}, {500000, 3, 10000}, {1000000, 2, 10000}};
+    const Step steps_[4] = {{10000, 8, MS_PER_STEP}, {100000, 6, MS_PER_STEP}, {500000, 3, MS_PER_STEP}, {1000000, 2, MS_PER_STEP}};
     size_t i_ = 0;
     uint32_t next_ = 0;
     void apply_(const Step &s)
@@ -31,7 +32,7 @@ public:
         i_ = 0;
         apply_(steps_[i_]);
         next_ = millis() + steps_[i_].ms;
-        UiBridge_logf("[Test1] LEDC: %lu Hz @ %u-bit (~50%%)", (unsigned long)steps_[i_].freq, steps_[i_].bits);
+        UiBridge_logf("[Test1] LEDC: %lu kHz @ %u-bit (~50%%)", (unsigned long)steps_[i_].freq / 1000, steps_[i_].bits);
     }
     void tick() override
     {
@@ -41,7 +42,7 @@ public:
             i_ = (i_ + 1) % 4;
             apply_(steps_[i_]);
             next_ = now + steps_[i_].ms;
-            UiBridge_logf("[Test1] LEDC: %lu Hz @ %u-bit (~50%%)", (unsigned long)steps_[i_].freq, steps_[i_].bits);
+            UiBridge_logf("[Test1] LEDC: %lu kHz @ %u-bit (~50%%)", (unsigned long)steps_[i_].freq / 1000, steps_[i_].bits);
         }
     }
     void end() override { ledcSafeDetach(LEDC_TEST_PIN); }
